@@ -1,5 +1,7 @@
 import java.util.Random;
 
+import static java.lang.Thread.sleep;
+
 public class SnakeGame {
     private int xBound;
     private int yBound;
@@ -21,7 +23,7 @@ public class SnakeGame {
         while (isSnakeInBounds()) {
             System.out.println(this);
             try {
-                Thread.sleep(1000);
+                sleep(1000);
             } catch (InterruptedException e) {
                 return;
             }
@@ -31,6 +33,10 @@ public class SnakeGame {
             } else {
                 snake.cutTail();
             }
+        /*
+        Thread.sleep loop not ended - bug to use RIGHT, UP, DOWN, LEFT - to fix
+         */
+
         }
     }
 
