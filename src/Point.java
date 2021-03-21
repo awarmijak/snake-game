@@ -1,3 +1,6 @@
+
+import java.util.Objects;
+
 public class Point {
     private int x;
     private int y;
@@ -17,19 +20,35 @@ public class Point {
 
     @Override
     public String toString() {
-        return "Point{" +
-                "x=" + x +
-                ", y=" + y +
-                '}';
+        return "(" + x + ", " + y + ")";
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         Point point = (Point) o;
-        return x == point.x && y == point.y;
+        return x == point.x &&
+                y == point.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
+    }
+
+    public Point move(Direction direction) {
+        switch (direction) {
+            case LEFT:
+                return new Point(x - 1, y);
+            case RIGHT:
+                return new Point(x + 1, y);
+            case UP:
+                return new Point(x, y - 1);
+            case DOWN:
+                return new Point(x, y + 1);
+            default:
+                throw new IllegalArgumentException();
+        }
     }
 }

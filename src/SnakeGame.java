@@ -22,19 +22,25 @@ public class SnakeGame {
             System.out.println(this);
             try {
                 Thread.sleep(1000);
-            } catch (InterruptedException e)
-            return;
+            } catch (InterruptedException e) {
+                return;
+            }
+            snake.expand();
+            if (apple.equals(snake.getHead())) {
+                randomizeApple();
+            } else {
+                snake.cutTail();
+            }
         }
-        snake.expand();
-        if (apple.equals(snake.getHead())) {
-            randomizeApple();
-        } else {
-            snake.cutTail;
-        }
-
     }
 
-}
+    private boolean isSnakeInBounds() {
+        Point head = snake.getHead();
+        int headX = head.getX();
+        int headY = head.getY();
+        return headX >= 0 && headX < xBound &&
+                headY >= 0 && headY < yBound;
+    }
 
     private void randomizeApple() {
         Random random = new Random();
@@ -42,7 +48,36 @@ public class SnakeGame {
             int appleX = random.nextInt(xBound);
             int appleY = random.nextInt(yBound);
             apple = new Point(appleX, appleY);
+        } while (snake.contains(apple));
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int y = 0; y < yBound; y++) {
+            for (int x = 0; x < xBound; x++) {
+                Point point = new Point(x, y);
+                char boardCharacter = getBoardCharacterAt(point);
+                stringBuilder.append(boardCharacter);
+            }
+            stringBuilder.append('\n');
         }
-        while (snake.contains(apple));
+        return stringBuilder.toString();
+    }
+
+    private char getBoardCharacterAt(Point point) {
+        if (point.equals(apple)) {
+            return 'A';
+        } else if (point.equals(snake.getHead())) {
+            return 'H';
+        } else if (snake.getBody().contains(point)) {
+            return 'B';
+        } else {
+            return '.';
+        }
+    }
+
+    public void setSnakeDirection(Direction direction) {
+        snake.setDirection(direction);
     }
 }
